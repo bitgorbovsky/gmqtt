@@ -12,3 +12,4 @@ pyenv/
 .coverage
 .pytest_cache/
 htmlcov/
+build

@@ -8,16 +8,8 @@ from functools import partial
 logger = logging.getLogger(__name__)
 
 
-class Singleton(type):
-    _instances = {}
+class IdGenerator:
 
-    def __call__(cls, *args, **kwargs):
-        if cls not in cls._instances:
-            cls._instances[cls] = super(Singleton, cls).__call__(*args, **kwargs)
-        return cls._instances[cls]
-
-
-class IdGenerator(object, metaclass=Singleton):
     def __init__(self, max=65536):
         self._max = max
         self._used_ids = set()

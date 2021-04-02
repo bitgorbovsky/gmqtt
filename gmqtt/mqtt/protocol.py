@@ -6,6 +6,7 @@ import sys
 
 from . import package
 from .constants import MQTTv50, MQTTCommands
+from .utils import IdGenerator
 
 logger = logging.getLogger(__name__)
 
@@ -44,6 +45,9 @@ class BaseMQTTProtocol(_StreamReaderProtocolCompatibilityMixin, asyncio.StreamRe
         # TODO: get rid of StreamReader dependency (deprecated)
         self._hard_reader = reader
         super(BaseMQTTProtocol, self).__init__(reader, loop=loop)
+
+    def next_id(self):
+        return self._id_gen.next_id()
 
     def set_connection(self, conn):
         self._connection = conn
@@ -100,6 +104,7 @@ class MQTTProtocol(BaseMQTTProtocol):
     def __init__(self, *args, **kwargs):
         super(MQTTProtocol, self).__init__(*args, **kwargs)
         self._queue = asyncio.Queue()
+        self._id_gen = IdGenerator()
 
         self._disconnect = asyncio.Event()
 

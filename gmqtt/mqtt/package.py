@@ -21,7 +21,6 @@ class Packet(object):
 
 
 class PackageFactory(object):
-    id_generator = IdGenerator()
 
     @classmethod
     async def parse_package(cls, cmd, package):
@@ -128,7 +127,7 @@ class UnsubscribePacket(PackageFactory):
         packet = bytearray()
         packet.append(command)
         packet.extend(pack_variable_byte_integer(remaining_length))
-        local_mid = cls.id_generator.next_id()
+        local_mid = protocol.next_id()
         packet.extend(struct.pack("!H", local_mid))
         packet.extend(properties)
         for t in topics:
@@ -175,7 +174,7 @@ class SubscribePacket(PackageFactory):
         packet = bytearray()
         packet.append(command)
         packet.extend(pack_variable_byte_integer(remaining_length))
-        local_mid = cls.id_generator.next_id()
+        local_mid = protocol.next_id()
         packet.extend(struct.pack("!H", local_mid))
         packet.extend(properties)
         for s in subscriptions:
@@ -220,7 +219,7 @@ class PublishPacket(PackageFactory):
 
         if message.qos > 0:
             # For message id
-            mid = cls.id_generator.next_id()
+            mid = protocol.next_id()
             packet.extend(struct.pack("!H", mid))
         else:
             mid = None
