@@ -58,7 +58,7 @@ class MQTTConnection:
 
         if time_ - self._last_data_out >= self._pingtime or \
            time_ - self._last_data_in >= self._pingtime:
-            self._protocol._send_ping_request()
+            self._protocol.send_ping_request()
         self.__schedule_keep()
 
     def put_package(self, pkg):
