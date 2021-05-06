@@ -12,4 +12,13 @@ pyenv/
 .coverage
 .pytest_cache/
 htmlcov/
+
+# builds, pipenv, pyenv
+.cache/
+Pipfile
+bin/
+lib/
+lib64
+pyvenv.cfg
+share/
 build
